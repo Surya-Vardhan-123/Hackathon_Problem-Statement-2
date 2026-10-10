@@ -7,7 +7,7 @@ PROBLEM: Local weather warnings, emergency broadcasts, and safe-zone declaration
 IMPACT: This communication gap leads to widespread panic, stranded travelers wandering into high-risk weather zones, and unnecessary strain on local rescue services during critical windows.
 
 Demo Video link:
-https://drive.google.com/drive/folders/1ydSw9cIvLBA63B1FFtbo7gS1qH0JAxri
+https://drive.google.com/drive/folders/19NhK0qqyarQCTpWxnB6O0Bfg78m_82Cj
 
 ChennaiAlert:
 
@@ -30,8 +30,6 @@ Groups nearby reports into advisory, warning, and emergency zones.
 •
 Shows hospitals, safe shelters, fire stations, police stations, transit hubs, and community locations.
 
-•
-Finds the nearest listed safety location within 5 km of the user's GPS position.
 
 •
 Supports 20 languages, including English, Tamil, Hindi, Bengali, Telugu, Kannada, Malayalam, Marathi, Gujarati, Punjabi, Urdu, Nepali, Spanish, French, German, Arabic, Chinese, Japanese, Korean, and Portuguese.
@@ -60,13 +58,6 @@ Project structure
 │   └── app.js          ← bootstrap, event wiring, demo simulator
 └── README.md
 
-
-Honest limitations
-Reports are per-device (localStorage) — two phones don't share reports
-because there is no backend. That was a deliberate scope choice for v1.
-Weather is real; crowd reports are real locally (and simulatable for demo).
-GPS accuracy depends on the device; the blue dot shows a translucent
-accuracy circle like Google Maps does.
 
 Admin dashboard and Netlify deployment
 Deploy the public site and admin page as one Netlify site. Connect the repository to Netlify so the serverless function is deployed too.
