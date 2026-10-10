@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head> 
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChennaiAlert · Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,400,1,0" rel="stylesheet">
+<style>
+  :root{
+    --blue:#1a73e8; --red:#d93025; --orange:#e8710a; --yellow:#f09000;
+    --green:#188038; --gray-1:#f8f9fa; --gray-2:#f1f3f4; --line:#dadce0;
+    --txt:#202124; --txt-2:#5f6368; --txt-3:#80868b;
+    --shadow-1:0 1px 2px rgba(60,64,67,.3),0 1px 3px 1px rgba(60,64,67,.15);
+    --shadow-2:0 1px 3px rgba(60,64,67,.3),0 4px 8px 3px rgba(60,64,67,.15);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;height:100%;background:var(--gray-1);color:var(--txt);
+    font-family:Roboto,'Noto Sans Tamil','Noto Sans Devanagari',Arial,sans-serif}
+  .ms{font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;
+    font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24;
+    display:inline-block;line-height:1;user-select:none;vertical-align:middle}
+
+  #wrap{max-width:760px;margin:0 auto;background:#fff;min-height:100%;
+    box-shadow:0 0 0 1px var(--line)}
+  #topbar{background:#fff;padding:12px 16px;border-bottom:1px solid var(--line);
+    display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:10}
+  #topbar h1{font-size:16px;margin:0;font-weight:500}
+  #topbar h1 small{display:block;font-size:11.5px;font-weight:400;color:var(--txt-2)}
+  #topbar .spacer{flex:1}
+  #secretBadge{font-size:11.5px;color:var(--txt-3);background:var(--gray-2);
+    border:1px solid var(--line);border-radius:14px;padding:4px 10px}
+  #secretBadge .ms{font-size:15px;margin-right:4px}
+
+  #statusBar{padding:10px 16px;background:var(--gray-1);border-bottom:1px solid var(--line);
+    font-size:12.5px;color:var(--txt-2);display:flex;gap:18px;flex-wrap:wrap}
+  #statusBar b{font-weight:600;color:var(--txt)}
+  #statusBar .pill{display:inline-flex;align-items:center;gap:6px;padding:2px 8px;border-radius:12px;
+    background:var(--gray-2);font-size:12px}
+  #statusBar .dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+  #statusBar .dot.pending{background:var(--yellow)}
+  #statusBar .dot.accepted{background:var(--green)}
+  #statusBar .dot.declined{background:var(--txt-3)}
+
+  #toolbar{display:flex;gap:8px;padding:10px 16px;border-bottom:1px solid var(--line);
+    align-items:center;flex-wrap:wrap;background:#fff}
+  #toolbar input{flex:1;min-width:180px;background:var(--gray-2);border:1px solid var(--line);
+    border-radius:20px;padding:9px 12px;font-size:13.5px;font-family:inherit;outline:none}
+  #toolbar input:focus{border-color:var(--blue);box-shadow:0 0 0 2px var(--blue-tint)}
+  .btn{font-size:13px;padding:8px 14px;border:none;border-radius:20px;cursor:pointer;
+    font-family:inherit;font-weight:500;display:inline-flex;align-items:center;gap:6px;
+    background:var(--gray-2);color:var(--txt)}
+  .btn .ms{font-size:16px}
+  .btn.primary{background:var(--blue);color:#fff}
+  .btn.danger{background:var(--red);color:#fff}
+  .btn.outline{border:1px solid var(--line)}
+  .btn:active{opacity:.85}
+
+  #list{max-height:calc(100vh - 340px);overflow-y:auto}
+  .row{display:flex;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line);
+    align-items:flex-start}
+  .row:last-child{border-bottom:none}
+  .row .icon{width:34px;height:34px;border-radius:50%;flex:none;display:flex;
+    align-items:center;justify-content:center;color:#fff}
+  .row .body{flex:1;min-width:0}
+  .row .top{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .row .type{font-weight:500;font-size:14px}
+  .row .when{color:var(--txt-3);font-size:12px;margin-left:auto}
+  .row .note{color:var(--txt-2);font-size:13px;margin-top:3px;line-height:1.45;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .row .loc{color:var(--txt-3);font-size:11.5px;margin-top:4px}
+  .row .actions{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+
+  .empty{padding:40px 16px;text-align:center;color:var(--txt-2);font-size:13.5px}
+  .empty .ms{font-size:34px;color:var(--txt-3);display:block;margin-bottom:8px}
+
+  #toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#3c4043;
+    color:#fff;padding:10px 18px;border-radius:8px;font-size:13px;z-index:50;
+    opacity:0;transition:opacity .2s;pointer-events:none;max-width:calc(100% - 40px);
+    text-align:center;box-shadow:var(--shadow-2);white-space:nowrap}
+  #toast.show{opacity:1}
+
+  footer{padding:10px 16px;font-size:11.5px;color:var(--txt-3);border-top:1px solid var(--line);
+    background:var(--gray-1)}
+  .err{padding:40px 16px;text-align:center;color:var(--red);font-size:13px}
+  .err .ms{font-size:30px;display:block;margin-bottom:8px}
+</style>
+</head>
+<body>
+<div id="wrap">
+  <div id="topbar">
+    <h1>ChennaiAlert<small>Admin panel — hazard reports</small></h1>
+    <div class="spacer"></div>
+    <span id="secretBadge"><span class="ms">lock</span>admin access</span>
+  </div>
+
+  <div id="statusBar">
+    <span class="pill"><span class="dot pending"></span><b id="cntPending">0</b> pending</span>
+    <span class="pill"><span class="dot accepted"></span><b id="cntAccepted">0</b> accepted</span>
+    <span class="pill"><span class="dot declined"></span><b id="cntDeclined">0</b> declined</span>
+    <span>updated <span id="updated">—</span></span>
+  </div>
+
+  <div id="toolbar">
+    <input id="search" type="search" placeholder="Search note or area…" aria-label="Search reports">
+    <select id="statusSel" aria-label="Filter by status">
+      <option value="all">All statuses</option>
+      <option value="pending">Pending</option>
+      <option value="accepted">Accepted</option>
+      <option value="declined">Declined</option>
+    </select>
+    <button class="btn primary" id="refreshBtn"><span class="ms">refresh</span>Refresh</button>
+  </div>
+
+  <div id="list"></div>
+</div>
+
+<div id="toast" role="status"></div>
+
+<script src="admin.js"></script>
+</body>
+</html>
