@@ -6,6 +6,9 @@ CONTEXT: When localized extreme weather events occur—such as sudden flash floo
 PROBLEM: Local weather warnings, emergency broadcasts, and safe-zone declarations are fragmented and rarely translated or localized for tourists. Travelers struggle to verify which areas are actively flooded or unsafe and cannot easily access translated instructions from local authorities, forcing them to rely on chaotic, unverified social media rumors.
 IMPACT: This communication gap leads to widespread panic, stranded travelers wandering into high-risk weather zones, and unnecessary strain on local rescue services during critical windows.
 
+Demo Video link:
+https://drive.google.com/drive/folders/1ydSw9cIvLBA63B1FFtbo7gS1qH0JAxri
+
 ChennaiAlert:
 
 ChennaiAlert is a mobile-friendly tourist safety companion for Chennai.
